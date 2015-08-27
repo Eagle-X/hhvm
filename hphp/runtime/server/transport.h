@@ -419,6 +419,9 @@ public:
 
   void setSSL() {m_isSSL = true;}
   bool isSSL() const {return m_isSSL;}
+ 
+  void setUserAborted() {user_aborted = true;}
+  bool isUserAborted() const {return user_aborted;}
 
 protected:
   /**
@@ -486,6 +489,8 @@ protected:
   CompressionDecision m_compressionDecision;
 
   ThreadType m_threadType;
+
+  bool user_aborted{false};
 
   // helpers
   void parseGetParams();
