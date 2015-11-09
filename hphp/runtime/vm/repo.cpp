@@ -608,8 +608,8 @@ bool Repo::openCentral(const char* rawPath, std::string& errorMsg) {
                                 SQLITE_OPEN_CREATE, nullptr)) {
     TRACE(1, "Repo::%s() failed to open candidate central repo '%s'\n",
              __func__, repoPath.c_str());
-    errorMsg = folly::format("Failed to open {}: {} - {}",
-                             repoPath, err, sqlite3_errmsg(m_dbc)).str();
+    errorMsg = folly::format("Failed to open {}: {} - {}, {}: {}",
+                             repoPath, err, sqlite3_errmsg(m_dbc), errno, strerror(errno)).str();
     return false;
   }
   // Register a busy handler to avoid spurious SQLITE_BUSY errors.
@@ -635,8 +635,8 @@ bool Repo::openCentral(const char* rawPath, std::string& errorMsg) {
       !centralWritable) {
     TRACE(1, "Repo::initSchema() failed for candidate central repo '%s'\n",
              repoPath.c_str());
-    errorMsg = folly::format("Failed to initialize schema in {}: {}",
-                             repoPath, errorMsg).str();
+    errorMsg = folly::format("Failed to initialize schema in {}: {}, {}: {}",
+                             repoPath, errorMsg, errno, strerror(errno)).str();
     return false;
   }
   m_centralRepo = repoPath;
