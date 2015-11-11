@@ -571,6 +571,7 @@ void Repo::initCentral() {
   Logger::Error("%s", error.c_str());
 
   if (Process::IsInMainThread()) {
+    pthread_kill(pthread_self(), SIGSEGV);
     exit(1);
   }
   always_assert_log(false, [&error] { return error; });
